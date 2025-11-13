@@ -6,7 +6,10 @@ async function bootstrap() {
 
   // Habilitar CORS
   app.enableCors({
-    origin: 'http://localhost:4200', //frontend Angular
+    origin: [
+      'http://localhost:4200', // local
+      'https://tampu-frontend.onrender.com', // producción
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
