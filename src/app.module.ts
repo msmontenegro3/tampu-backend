@@ -9,7 +9,8 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
+    TypeOrmModule.forRoot(
+      /* {
       type: 'postgres',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT ?? '5432'),
@@ -18,7 +19,15 @@ import { AuthModule } from './auth/auth.module';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true, // solo en desarrollo
-    }),
+    } */
+      {
+        type: 'postgres',
+        url: process.env.DATABASE_URL,
+        autoLoadEntities: true,
+        synchronize: true, // (solo para desarrollo)
+        ssl: process.env.RENDER ? { rejectUnauthorized: false } : false,
+      },
+    ),
     UsersModule,
     AuthModule,
   ],
