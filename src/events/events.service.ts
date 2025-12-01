@@ -34,7 +34,6 @@ export class EventsService {
   }
 
   async create(dto: CreateEventDto, teacherId: number) {
-    console.log('SERVICIO teacherId =', teacherId);
     const event = this.repo.create({
       ...dto,
       teacher: { id: teacherId } as any,
@@ -44,10 +43,10 @@ export class EventsService {
 
   async update(id: string, dto: UpdateEventDto, teacherId: number) {
     const event = await this.repo.findOne({ where: { id } });
-    if (!event) throw new NotFoundException('Evento no existe');
+    if (!event) throw new NotFoundException('El evento no existe');
 
     if (event.teacher.id !== teacherId)
-      throw new ForbiddenException('No puedes editar este evento');
+      throw new ForbiddenException('No tienes permiso para editar este evento');
 
     Object.assign(event, dto);
     return this.repo.save(event);
@@ -58,7 +57,9 @@ export class EventsService {
     if (!event) return;
 
     if (event.teacher.id !== teacherId)
-      throw new ForbiddenException('No puedes eliminar este evento');
+      throw new ForbiddenException(
+        'No tienes permiso para eliminar este evento',
+      );
     await this.repo.remove(event);
   }
 }
