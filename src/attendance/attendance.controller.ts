@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
   UseInterceptors,
@@ -27,6 +28,12 @@ export class AttendanceController {
     @Req() req: any,
   ) {
     return this.service.markAttendance(eventId, +studentId, req.user.userId);
+  }
+
+  @Roles('docente')
+  @Put(':attendanceId')
+  update(@Param('attendanceId') attendanceId: string, @Req() req: any) {
+    return this.service.updateAttendance(attendanceId, req.user.userId);
   }
 
   @Roles('estudiante')

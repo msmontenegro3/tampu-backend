@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,6 +10,7 @@ import {
   Query,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { EventsService } from './events.service';
@@ -18,6 +20,7 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { RolesGuard } from 'src/common/guards/roles/roles.guard';
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('events')
 export class EventsController {
   constructor(private readonly service: EventsService) {}
