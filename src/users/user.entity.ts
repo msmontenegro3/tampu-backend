@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 
 export type UserRole = 'docente' | 'estudiante';
 
@@ -27,4 +28,6 @@ export class User {
 
   /* @OneToMany(() => event.teacher);
   @OneToMany(() => Enrollment, (enrollment) => enrollment.student) */
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+  inscripciones: Enrollment[];
 }

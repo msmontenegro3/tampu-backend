@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './common/guards/roles/roles.guard';
+import { EnrollmentsModule } from './enrollments/enrollments.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RolesGuard } from './common/guards/roles/roles.guard';
     UsersModule,
     AuthModule,
     EventsModule,
+    EnrollmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

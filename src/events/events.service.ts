@@ -33,6 +33,19 @@ export class EventsService {
     return this.repo.find({ where, order: { date: 'ASC', time: 'ASC' } });
   }
 
+  async findOne(id: string) {
+    const event = await this.repo.findOne({
+      where: { id },
+      relations: ['teacher'],
+    });
+
+    if (!event) {
+      throw new NotFoundException('El evento no existe');
+    }
+
+    return event;
+  }
+
   async create(dto: CreateEventDto, teacherId: number) {
     const event = this.repo.create({
       ...dto,

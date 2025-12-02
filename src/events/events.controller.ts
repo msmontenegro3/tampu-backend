@@ -27,6 +27,11 @@ export class EventsController {
     return this.service.listActive({ from, to });
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.service.findOne(id);
+  }
+
   @Roles('docente')
   @Post()
   create(@Body() dto: CreateEventDto, @Req() req: any) {
