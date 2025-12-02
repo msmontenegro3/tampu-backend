@@ -9,6 +9,7 @@ import { EventsModule } from './events/events.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './common/guards/roles/roles.guard';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
+import { AttendanceModule } from './attendance/attendance.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EnrollmentsModule } from './enrollments/enrollments.module';
     AuthModule,
     EventsModule,
     EnrollmentsModule,
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
