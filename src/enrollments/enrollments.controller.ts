@@ -1,6 +1,7 @@
 import {
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -38,5 +39,17 @@ export class EnrollmentsController {
   listByEvent(@Param('eventId') eventId: string, @Req() req: any) {
     const teacherId = req.user.userId;
     return this.service.listByEvent(eventId, teacherId);
+  }
+
+  @Roles('estudiante')
+  @Delete(':eventId')
+  unenroll(@Param('eventId') eventId: string, @Req() req) {
+    return this.service.unenroll(eventId, req.user.userId);
+  }
+
+  @Roles('estudiante')
+  @Get('event/:eventId/is-enrolled')
+  isEnrroled(@Param('eventId') eventId: string, @Req() req) {
+    return this.service.isEnrolled(eventId, req.user.userId);
   }
 }

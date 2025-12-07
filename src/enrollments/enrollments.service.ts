@@ -84,4 +84,31 @@ export class EnrollmentsService {
 
     return enrolls.map((e) => e.event);
   }
+
+  async unenroll(eventId: string, studentId: number) {
+    const enrollment = await this.enrollRepo.findOne({
+      where: {
+        event: { id: eventId },
+        student: { id: studentId },
+      },
+    });
+
+    if (!enrollment) {
+      throw new NotFoundException('No estás inscrito');
+    }
+
+    await this.enrollRepo.remove(enrollment);
+    return { message: 'Desincripción exitosa' };
+  }
+
+  async isEnrolled(eventId: string, studentId: number) {
+    const exists = await this.enrollRepo.findOne({
+      where: {
+        event: { id: eventId },
+        student: { id: studentId },
+      },
+    });
+
+    return { enrolled: !!exists };
+  }
 }
