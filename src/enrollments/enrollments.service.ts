@@ -82,7 +82,7 @@ export class EnrollmentsService {
       order: { createdAt: 'DESC' },
     });
 
-    return enrolls.map((e) => e.event);
+    return enrolls.map((e) => e.event.id);
   }
 
   async unenroll(eventId: string, studentId: number) {
