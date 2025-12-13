@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -44,7 +45,7 @@ export class EventsController {
   }
 
   @Roles('docente')
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() dto: UpdateEventDto,
