@@ -1,6 +1,7 @@
 import {
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -31,14 +32,24 @@ export class AttendanceController {
   }
 
   @Roles('docente')
-  @Put(':attendanceId')
-  update(@Param('attendanceId') attendanceId: string, @Req() req: any) {
-    return this.service.updateAttendance(attendanceId, req.user.userId);
+  @Delete(':eventId/:studentId')
+  remove(
+    @Param('eventId') eventId: string,
+    @Param('studentId') studentId: number,
+    @Req() req: any,
+  ) {
+    return this.service.removeAttendance(eventId, +studentId, req.user.userId);
   }
 
   @Roles('estudiante')
   @Get('my-history')
   myHistory(@Req() req: any) {
     return this.service.listMyAttendance(req.user.userId);
+  }
+
+  @Roles('docente')
+  @Get('event/:eventId')
+  listEventAttendance(@Param('eventId') eventId: string, @Req() req: any) {
+    return this.service.listEventAttendance(eventId, req.user.userId);
   }
 }

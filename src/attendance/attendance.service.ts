@@ -65,22 +65,36 @@ export class AttendanceService {
     return this.repo.save(attendance);
   }
 
-  async updateAttendance(attendanceId: string, teacherId: number) {
-    const attendance = await this.repo.findOne({
-      where: { id: attendanceId },
-      relations: ['event', 'event.teacher'],
+  async removeAttendance(
+    eventId: string,
+    studentId: number,
+    teacherId: number,
+  ) {
+    const event = await this.eventsRepo.findOne({
+      where: { id: eventId },
+      relations: ['teacher'],
     });
 
-    if (!attendance)
-      throw new NotFoundException('No se ha registrado asistencia todavía');
+    if (!event) throw new NotFoundException('El evento no existe');
 
-    if (attendance.event.teacher.id !== teacherId) {
+    if (event.teacher.id !== teacherId)
       throw new ForbiddenException(
-        'No tienes permiso de editar esta asistencia',
+        'No puedes modificar la asistencia de este evento',
       );
+
+    const attendance = await this.repo.findOne({
+      where: {
+        student: { id: studentId } as any,
+        event: { id: eventId } as any,
+      },
+    });
+
+    if (!attendance) {
+      return { removed: false };
     }
 
-    return this.repo.save(attendance);
+    await this.repo.remove(attendance);
+    return { removed: true };
   }
 
   async listEventAttendance(eventId: string, teacherId: number) {
